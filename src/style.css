@@ -1,0 +1,60 @@
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+}
+#title {
+  background-color: blue;
+  width: auto;
+  height: 200px;
+  line-height: 200px;
+  font-size: 70px;
+}
+
+#sideBar {
+  background-color: red;
+  width: 20%;
+  padding: 10px;
+}
+
+#displayBar {
+  background-color: orange;
+  width: 80%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: antiquewhite;
+  height: 100vh;
+}
+
+#homeMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menuSections {
+  font-size: 18px;
+}
+
+.projectTitle {
+  width: 90%;
+  height: 100px;
+  background-color: pink;
+  line-height: 100px;
+  margin-top: 20px;
+}
+
+#projectDetails {
+  width: 90%;
+  height: 700px;
+  background-color: blue;
+}
