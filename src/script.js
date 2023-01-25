@@ -1,5 +1,7 @@
 import "./style.css";
+import { addEventListeners } from "./eventListeners";
+import { addTaskBtn } from "./loadDom";
 
-document.addEventListener("click", (e) => {
-  console.log(e.target.id);
-});
+(function () {
+  addEventListeners();
+})();

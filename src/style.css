@@ -58,3 +58,20 @@ body {
   height: 700px;
   background-color: blue;
 }
+
+#projectMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#addProj {
+  background-color: pink;
+  width: 100px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  line-height: 25px;
+  justify-content: center;
+  border-radius: 10px;
+}
