@@ -36,7 +36,10 @@ function popUpTaskForm(parent) {
   s.id = "submitProjBtn";
   s.addEventListener("click", function () {
     getInputForTask(); //change where input goes
+
     removeInputForm(); //is good
+
+    displayTaskOnContentPage();
   });
 
   container.appendChild(name);
@@ -109,6 +112,23 @@ function displayNewProjOnSideBar() {
   newProjDiv.setAttribute("id", projectList.length);
   parent.appendChild(newProjDiv);
   addMenuBtnEventListeners();
+}
+
+function displayTaskOnContentPage() {
+  const parent = document.getElementById("projectDetails");
+  //create new div element and name it after the last element pushed into the div.
+  const newTaskDiv = document.createElement("div");
+  const currentProj = document.getElementsByClassName("currentProj")[0].id;
+  console.log(projectList);
+
+  console.log(currentProj);
+
+  const last = projectList[currentProj - 1].projectTaskList.length - 1;
+  console.log(last);
+  console.log(projectList[currentProj - 1].projectTaskList[last].taskName);
+  newTaskDiv.innerHTML =
+    projectList[currentProj - 1].projectTaskList[last].taskName;
+  parent.appendChild(newTaskDiv);
 }
 
 export { changeTitle, getNameOfButton, addProject, popUpTaskForm };
