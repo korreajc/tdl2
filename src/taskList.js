@@ -14,14 +14,18 @@ function projectItem(name) {
 export let allTasksList = [
   {
     taskName: "Default Task",
-    taskDescription: "This is a default task.",
-    dueDate: "Today",
-    priority: "Soon",
   },
 ];
 
 export let projectList = [
-  
+  {
+    projectName: "Default Project",
+    projectTaskList: [
+      {
+        taskName: "Default Task",
+      },
+    ],
+  },
 ];
 
 export { taskItem, projectItem };

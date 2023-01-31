@@ -1,15 +1,23 @@
 import { addMenuBtnEventListeners } from "./eventListeners";
-import { projectItem } from "./taskList";
+import { allTasksList, projectItem } from "./taskList";
 import { projectList } from "./taskList";
 import { taskItem } from "./taskList";
-import { makeInputForm, removeChildrenOfAnElement } from "./sharedFunctions.js";
+import {
+  getCurrProj,
+  makeInputForm,
+  removeChildrenOfAnElement,
+} from "./sharedFunctions.js";
+import { projInputHandler, taskSubmitBtnHandler } from "./objectHandlers";
 
 //dom
 function changeTitle(name) {
   const defaultTitle = document.getElementById("staticTitle");
   defaultTitle.innerHTML = name;
 }
-
+function removeCurrProj() {
+  const parent = document.getElementsByClassName("currentProj")[0];
+  parent.classList.remove("currentProj");
+}
 //dom
 function getNameOfButton(id) {
   const originalName = document.getElementById(id); //gets clicked on
@@ -27,10 +35,6 @@ function removeCurrTasks() {
 }
 
 //dom
-function removeCurrProj() {
-  const parent = document.getElementsByClassName("currentProj")[0];
-  parent.classList.remove("currentProj");
-}
 
 //dom and js
 function popUpTaskForm(parent) {
@@ -45,24 +49,19 @@ function popUpTaskForm(parent) {
 
   btn.addEventListener("click", function () {
     taskSubmitBtnHandler();
+    makeClickable("addTaskBtn");
+    makeClickable("addProj");
   });
-}
-
-function taskSubmitBtnHandler() {
-  getInputForTask(); //change where input goes
-  removeInputForm("taskBtnContainer"); //is good
-  displayTaskOnContentPage();
 }
 
 //dom
 function getInputForTask() {
   let taskName = document.getElementById("inputTaskName").value;
   let newTask = taskItem(taskName);
-  let curElement = document.getElementsByClassName("currentProj")[0];
-  let currentElement = curElement.getAttribute("id");
-  console.log(currentElement - 1);
+  allTasksList.push(newTask);
+  console.log(allTasksList);
+  let currentElement = getCurrProj();
   projectList[currentElement - 1].projectTaskList.push(newTask);
-  console.log(projectList);
 }
 
 //dom
@@ -78,14 +77,9 @@ function newProjPopUpForm(parent) {
 
   btn.addEventListener("click", function () {
     projInputHandler();
+    makeClickable("addProj");
+    makeClickable("addTaskBtn");
   });
-}
-
-function projInputHandler() {
-  getInput();
-  removeInputForm("projInputContainer");
-  console.log(projectList);
-  displayNewProjOnSideBar();
 }
 
 //js
@@ -121,28 +115,43 @@ function displayNewProjOnSideBar() {
   addMenuBtnEventListeners();
 }
 
+function makeUnclickable(identifier) {
+  const item = document.getElementById(identifier);
+  item.classList.add("unclickable");
+}
+
+function makeClickable(identifier) {
+  const item = document.getElementById(identifier);
+  item.classList.remove("unclickable");
+}
+
 //dom
 
 function displayTaskOnContentPage() {
   const parent = document.getElementById("taskContainer");
   //create new div element and name it after the last element pushed into the div.
   const newTaskDiv = document.createElement("div");
-  const currentProj = document.getElementsByClassName("currentProj")[0].id;
-  console.log(projectList);
-
-  console.log(currentProj);
-
+  const currentProj = getCurrProj();
   const last = projectList[currentProj - 1].projectTaskList.length - 1;
-  console.log(last);
-  console.log(projectList[currentProj - 1].projectTaskList[last].taskName);
   newTaskDiv.innerHTML =
     projectList[currentProj - 1].projectTaskList[last].taskName;
   parent.appendChild(newTaskDiv);
 }
 
+function displayAllTasks() {
+  const parent = document.getElementById("taskContainer");
+  removeChildrenOfAnElement(parent);
+  for (let i = 0; i < allTasksList.length; i++) {
+    const newTaskDiv = document.createElement("div");
+    newTaskDiv.innerHTML = allTasksList[i].taskName;
+    parent.appendChild(newTaskDiv);
+  }
+}
+
 //dom
 function displayCurrTasks() {
-  const currentProj = document.getElementsByClassName("currentProj")[0].id;
+  const currentProj = getCurrProj();
+  console.log(currentProj);
   const parent = document.getElementById("taskContainer");
 
   for (
@@ -157,4 +166,18 @@ function displayCurrTasks() {
   }
 }
 
-export { changeTitle, getNameOfButton, addProject, popUpTaskForm };
+export {
+  changeTitle,
+  getNameOfButton,
+  addProject,
+  popUpTaskForm,
+  getInput,
+  removeInputForm,
+  displayNewProjOnSideBar,
+  getInputForTask,
+  displayTaskOnContentPage,
+  displayCurrTasks,
+  displayAllTasks,
+  makeClickable,
+  makeUnclickable,
+};

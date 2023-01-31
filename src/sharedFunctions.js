@@ -6,6 +6,11 @@ function removeChildrenOfAnElement(parent) {
   }
 }
 
+function getCurrProj() {
+  const currentProj = document.getElementsByClassName("currentProj")[0].id;
+  return currentProj;
+}
+
 function makeInputForm(
   parentContainer,
   containerId,
@@ -35,4 +40,4 @@ function makeInputForm(
   return btn;
 }
 
-export { removeChildrenOfAnElement, makeInputForm };
+export { removeChildrenOfAnElement, makeInputForm, getCurrProj };
