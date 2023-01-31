@@ -1,14 +1,12 @@
+import { displayNewProjOnSideBar, displayTaskOnContentPage } from "./loadDom";
 import {
-  getInput,
-  removeInputForm,
-  displayNewProjOnSideBar,
-  getInputForTask,
-  displayTaskOnContentPage,
+  getProjInput,
   makeUnclickable,
-} from "./loadDom";
+  getInputForTask,
+  removeInputForm,
+} from "./helperFunctions";
 function projInputHandler() {
-  makeUnclickable("addProj");
-  getInput();
+  getProjInput();
   removeInputForm("projInputContainer");
   displayNewProjOnSideBar();
 }

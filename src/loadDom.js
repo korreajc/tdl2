@@ -1,42 +1,14 @@
 import { addMenuBtnEventListeners } from "./eventListeners";
-import { allTasksList, projectItem } from "./taskList";
+import { allTasksList } from "./taskList";
 import { projectList } from "./taskList";
-import { taskItem } from "./taskList";
 import {
   getCurrProj,
   makeInputForm,
   removeChildrenOfAnElement,
 } from "./sharedFunctions.js";
 import { projInputHandler, taskSubmitBtnHandler } from "./objectHandlers";
+import { makeClickable } from "./helperFunctions";
 
-//dom
-function changeTitle(name) {
-  const defaultTitle = document.getElementById("staticTitle");
-  defaultTitle.innerHTML = name;
-}
-function removeCurrProj() {
-  const parent = document.getElementsByClassName("currentProj")[0];
-  parent.classList.remove("currentProj");
-}
-//dom
-function getNameOfButton(id) {
-  const originalName = document.getElementById(id); //gets clicked on
-  removeCurrProj();
-  removeCurrTasks();
-  originalName.classList.add("currentProj");
-  displayCurrTasks();
-  changeTitle(originalName.innerHTML);
-}
-
-//dom
-function removeCurrTasks() {
-  const parent = document.getElementById("taskContainer");
-  removeChildrenOfAnElement(parent);
-}
-
-//dom
-
-//dom and js
 function popUpTaskForm(parent) {
   let btn = makeInputForm(
     parent,
@@ -54,17 +26,6 @@ function popUpTaskForm(parent) {
   });
 }
 
-//dom
-function getInputForTask() {
-  let taskName = document.getElementById("inputTaskName").value;
-  let newTask = taskItem(taskName);
-  allTasksList.push(newTask);
-  console.log(allTasksList);
-  let currentElement = getCurrProj();
-  projectList[currentElement - 1].projectTaskList.push(newTask);
-}
-
-//dom
 function newProjPopUpForm(parent) {
   let btn = makeInputForm(
     parent,
@@ -82,28 +43,6 @@ function newProjPopUpForm(parent) {
   });
 }
 
-//js
-
-function getInput() {
-  let projName = document.getElementById("inputProjName").value;
-  let newProj = projectItem(projName);
-  projectList.push(newProj);
-}
-
-//dom
-
-function removeInputForm(id) {
-  const projContainer = document.getElementById(id);
-  projContainer.remove();
-}
-
-//dom
-function addProject() {
-  let parent = document.getElementById("projectMenu");
-  newProjPopUpForm(parent);
-}
-
-//dom
 function displayNewProjOnSideBar() {
   const parent = document.getElementById("projectMenu");
   //create new div element and name it after the last element pushed into the div.
@@ -114,18 +53,6 @@ function displayNewProjOnSideBar() {
   parent.appendChild(newProjDiv);
   addMenuBtnEventListeners();
 }
-
-function makeUnclickable(identifier) {
-  const item = document.getElementById(identifier);
-  item.classList.add("unclickable");
-}
-
-function makeClickable(identifier) {
-  const item = document.getElementById(identifier);
-  item.classList.remove("unclickable");
-}
-
-//dom
 
 function displayTaskOnContentPage() {
   const parent = document.getElementById("taskContainer");
@@ -148,7 +75,6 @@ function displayAllTasks() {
   }
 }
 
-//dom
 function displayCurrTasks() {
   const currentProj = getCurrProj();
   console.log(currentProj);
@@ -167,17 +93,10 @@ function displayCurrTasks() {
 }
 
 export {
-  changeTitle,
-  getNameOfButton,
-  addProject,
   popUpTaskForm,
-  getInput,
-  removeInputForm,
   displayNewProjOnSideBar,
-  getInputForTask,
   displayTaskOnContentPage,
   displayCurrTasks,
   displayAllTasks,
-  makeClickable,
-  makeUnclickable,
+  newProjPopUpForm,
 };

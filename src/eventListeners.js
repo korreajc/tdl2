@@ -1,7 +1,8 @@
-import { getNameOfButton, addProject, changeTitle } from "./loadDom";
 import { popUpTaskForm, displayCurrTasks } from "./loadDom";
-import { projectItem, projectList } from "./taskList";
-import { displayAllTasks, makeUnclickable } from "./loadDom";
+import { displayAllTasks } from "./loadDom";
+import { getNameOfButton } from "./helperFunctions";
+import { makeUnclickable, addProject, changeTitle } from "./helperFunctions";
+
 function addMenuBtnEventListeners() {
   document.querySelectorAll("div.menuSections").forEach((item) => {
     item.addEventListener("click", (e) => {
