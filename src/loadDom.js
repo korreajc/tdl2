@@ -2,51 +2,59 @@ import { addMenuBtnEventListeners } from "./eventListeners";
 import { projectItem } from "./taskList";
 import { projectList } from "./taskList";
 import { taskItem } from "./taskList";
+import { makeInputForm, removeChildrenOfAnElement } from "./sharedFunctions.js";
 
+//dom
 function changeTitle(name) {
   const defaultTitle = document.getElementById("staticTitle");
   defaultTitle.innerHTML = name;
 }
 
+//dom
 function getNameOfButton(id) {
-  const originalName = document.getElementById(id);
+  const originalName = document.getElementById(id); //gets clicked on
   removeCurrProj();
+  removeCurrTasks();
   originalName.classList.add("currentProj");
+  displayCurrTasks();
   changeTitle(originalName.innerHTML);
 }
 
+//dom
+function removeCurrTasks() {
+  const parent = document.getElementById("taskContainer");
+  removeChildrenOfAnElement(parent);
+}
+
+//dom
 function removeCurrProj() {
   const parent = document.getElementsByClassName("currentProj")[0];
   parent.classList.remove("currentProj");
 }
 
+//dom and js
 function popUpTaskForm(parent) {
-  let paren = parent;
-  let container = document.createElement("div");
-  container.setAttribute("id", "container");
+  let btn = makeInputForm(
+    parent,
+    "taskBtnContainer",
+    "taskName",
+    "inputTaskName",
+    "Submit",
+    "submitTaskBtn"
+  );
 
-  var name = document.createElement("input");
-  name.type = "text";
-  name.name = "taskName";
-  name.id = "inputTaskName";
-
-  var s = document.createElement("input");
-  s.type = "submit";
-  s.value = "Submit";
-  s.id = "submitProjBtn";
-  s.addEventListener("click", function () {
-    getInputForTask(); //change where input goes
-
-    removeInputForm(); //is good
-
-    displayTaskOnContentPage();
+  btn.addEventListener("click", function () {
+    taskSubmitBtnHandler();
   });
-
-  container.appendChild(name);
-  container.appendChild(s);
-  paren.appendChild(container);
 }
 
+function taskSubmitBtnHandler() {
+  getInputForTask(); //change where input goes
+  removeInputForm("taskBtnContainer"); //is good
+  displayTaskOnContentPage();
+}
+
+//dom
 function getInputForTask() {
   let taskName = document.getElementById("inputTaskName").value;
   let newTask = taskItem(taskName);
@@ -57,52 +65,51 @@ function getInputForTask() {
   console.log(projectList);
 }
 
+//dom
 function newProjPopUpForm(parent) {
-  let paren = parent;
-  let container = document.createElement("div");
-  container.setAttribute("id", "container");
+  let btn = makeInputForm(
+    parent,
+    "projInputContainer",
+    "projName",
+    "inputProjName",
+    "Submit",
+    "submitProjBtn"
+  );
 
-  var name = document.createElement("input");
-  name.type = "text";
-  name.name = "taskName";
-  name.id = "inputTaskName";
-
-  var s = document.createElement("input");
-  s.type = "submit";
-  s.value = "Submit";
-  s.id = "submitProjBtn";
-  s.addEventListener("click", function () {
-    getInput();
-    removeInputForm();
-    console.log(projectList);
-    displayNewProjOnSideBar();
+  btn.addEventListener("click", function () {
+    projInputHandler();
   });
-
-  container.appendChild(name);
-  container.appendChild(s);
-  paren.appendChild(container);
 }
 
+function projInputHandler() {
+  getInput();
+  removeInputForm("projInputContainer");
+  console.log(projectList);
+  displayNewProjOnSideBar();
+}
+
+//js
+
 function getInput() {
-  let projName = document.getElementById("inputTaskName").value;
+  let projName = document.getElementById("inputProjName").value;
   let newProj = projectItem(projName);
   projectList.push(newProj);
 }
 
-function removeInputForm() {
-  const input = document.getElementById("inputTaskName");
-  const button = document.getElementById("submitProjBtn");
-  const container = document.getElementById("container");
-  input.remove();
-  button.remove();
-  container.remove();
+//dom
+
+function removeInputForm(id) {
+  const projContainer = document.getElementById(id);
+  projContainer.remove();
 }
 
+//dom
 function addProject() {
   let parent = document.getElementById("projectMenu");
   newProjPopUpForm(parent);
 }
 
+//dom
 function displayNewProjOnSideBar() {
   const parent = document.getElementById("projectMenu");
   //create new div element and name it after the last element pushed into the div.
@@ -114,8 +121,10 @@ function displayNewProjOnSideBar() {
   addMenuBtnEventListeners();
 }
 
+//dom
+
 function displayTaskOnContentPage() {
-  const parent = document.getElementById("projectDetails");
+  const parent = document.getElementById("taskContainer");
   //create new div element and name it after the last element pushed into the div.
   const newTaskDiv = document.createElement("div");
   const currentProj = document.getElementsByClassName("currentProj")[0].id;
@@ -129,6 +138,23 @@ function displayTaskOnContentPage() {
   newTaskDiv.innerHTML =
     projectList[currentProj - 1].projectTaskList[last].taskName;
   parent.appendChild(newTaskDiv);
+}
+
+//dom
+function displayCurrTasks() {
+  const currentProj = document.getElementsByClassName("currentProj")[0].id;
+  const parent = document.getElementById("taskContainer");
+
+  for (
+    let i = 0;
+    i < projectList[currentProj - 1].projectTaskList.length;
+    i++
+  ) {
+    const newTaskDiv = document.createElement("div");
+    newTaskDiv.innerHTML =
+      projectList[currentProj - 1].projectTaskList[i].taskName;
+    parent.appendChild(newTaskDiv);
+  }
 }
 
 export { changeTitle, getNameOfButton, addProject, popUpTaskForm };

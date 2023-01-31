@@ -20,6 +20,8 @@ export let allTasksList = [
   },
 ];
 
-export let projectList = [];
+export let projectList = [
+  
+];
 
 export { taskItem, projectItem };
